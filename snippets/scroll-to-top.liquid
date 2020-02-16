@@ -1,0 +1,62 @@
+{% assign vertical_offset_for_trigger = 300 %}
+
+{% assign position_from_bottom = '5em' %}
+
+<a href="#" class="back-to-top">
+  <i class="fa fa-arrow-circle-o-up fa-2x"></i> 
+</a>
+
+{{ '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css' | stylesheet_tag }}
+
+<style>
+.back-to-top {
+  position: fixed;
+  bottom: {{ position_from_bottom }};
+  right: 0px;ß
+  text-decoration: none;
+  color: #C0C0C0;
+  font-size: 16px;
+  padding: 1em;
+  display: none;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  z-index: 60000;
+}
+.back-to-top i {
+  vertical-align: middle;
+}
+.back-to-top span {
+  padding-left: 0.5em;
+}
+.back-to-top i + span {
+  padding-left: 0;
+}
+.back-to-top:hover {
+  text-decoration: none;
+  color: #FF9900;
+}
+</style>
+
+<script>
+jQuery(function($) {
+  var offset = {{ vertical_offset_for_trigger }};
+  var duration = 500;
+  $(window).scroll(function() {
+    if ($(this).scrollTop() > offset) {
+      $('.back-to-top').fadeIn(duration);
+    } 
+    else {
+      $('.back-to-top').fadeOut(duration);
+    }
+  });
+  $('.back-to-top').unbind('click.smoothscroll').bind('click', function(e) {
+    e.preventDefault();
+    $('html, body').animate( { scrollTop: 0 }, duration);
+    return false;
+  })
+});
+</script>

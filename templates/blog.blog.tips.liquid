@@ -1,0 +1,74 @@
+{% if settings.blog_banner_enabled %}
+  <header class="banner center page_banner">
+    <img  src="{{ 'blog_banner.jpg' | asset_img_url: '100x' }}"
+          alt="{{ blog.title | escape }}"
+          class="lazyload js-image-loaded {{ settings.image_loading_style }}"
+          data-src="{{ 'blog_banner.jpg' | asset_img_url: '1400x', format: 'pjpg' }}"
+          sizes="100vw"
+          srcset="{{ 'blog_banner.jpg' | asset_img_url: '480x', format: 'pjpg' }} 480w,
+                  {{ 'blog_banner.jpg' | asset_img_url: '765x', format: 'pjpg' }} 765w,
+                  {{ 'blog_banner.jpg' | asset_img_url: '1400x', format: 'pjpg' }} 1400w,
+                  {{ 'blog_banner.jpg' | asset_img_url: '2048x', format: 'pjpg' }} 2048w"
+           />
+      {% if current_tags %}
+        <div class="caption">
+          <h1 class="headline">{{ current_tags }}</h1>
+        </div>
+      {% else %}
+        <div class="caption">
+          <h1 class="headline">{{ settings.image_blog_headline }}</h1>
+          <p class="subtitle">{{ settings.image_blog_subtitle }}</p>
+        </div>
+      {% endif %}
+  </header>
+  <a name="pagecontent" id="pagecontent"></a>
+  <div class="container {% if settings.blog_banner_enabled %}content{% endif %}">
+{% endif %}
+{% paginate blog.articles by settings.blog_posts_per_page %}
+  <div class="blog-header clearfix">
+    {% unless settings.blog_banner_enabled %}
+      <div class="eight columns">
+        <h1 class="blog-title">
+          {% if current_tags %}
+              <a href="/blogs/{{ blog.handle }}/tagged/{{ current_tags | handleize }}" title="{{ blog.title | escape }}">{{ current_tags }}</a>
+          {% else %}
+              {{ blog.title }}
+          {% endif %}
+        </h1>
+      </div>
+    {% endunless %}
+    <div class="eight columns section_select {% if settings.blog_banner_enabled %}offset-by-eight{% endif %}">
+      {% if settings.blog_tags %}
+          <select name="tag_filter" id="blog_filter" class="blog_filter">
+            <option {% unless current_tags %}selected="selected"{% endunless %} value="{{ blog.url }}">{{ 'blogs.general.view_all' | t }}</option>
+            {% for tag in blog.all_tags %}
+              <option {% if current_tags contains tag %}selected="selected"{% endif %} value="/blogs/{{ blog.handle }}/tagged/{{ tag | handleize }}">{{ tag }}</option>
+            {% endfor %}
+          </select>
+      {% endif %}
+    </div>
+    <div class="sixteen columns">
+      <div class="feature_divider"></div>
+    </div>
+  </div>
+  <div class="{% if settings.sidebar_enabled %}twelve{% else %}sixteen{% endif %} columns">
+    {% for article in blog.articles %}
+      <div class="{% if settings.sidebar_enabled %}eight{% else %}sixteen{% endif %} columns alpha omega article--text-center article{% unless forloop.last %} article--feature-divider{% endunless %}">
+        <h2>{{ article.title }}</h2>
+        <p class="blog_meta">
+          {% if settings.blog_author %}
+            <span>{{ 'blogs.article.by_author' | t: author: article.author }}</span>
+          {% endif %}
+          {% if settings.blog_date %}
+            <span>{{ article.published_at | date: format: "month_day_year" }}</span>
+          {% endif %}
+        </p>
+      </div>
+    {% endfor %}
+  </div>
+  {% include "blog-sidebar" with blog.handle %}
+  <br class="clear" />
+  <div class="sixteen columns">
+    {% include 'pagination' %}
+  </div>
+{% endpaginate %}

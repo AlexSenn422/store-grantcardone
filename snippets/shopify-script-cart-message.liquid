@@ -1,0 +1,23 @@
+<script>
+  (function($) {
+    $(document).on('page:load page:change', function() {
+      var discounted_items = [
+        {% for line_item in checkout.line_items %}
+          {% if line_item.message != blank %}
+          {
+            id: {{ line_item.variant_id }},
+            message: '{{ line_item.message }}'
+          },
+          {% endif %}
+        {% endfor %}
+      ];
+
+      for(var i = 0; i < discounted_items.length; i++) {
+        var product_select = 'tr.product[data-variant-id="' + discounted_items[i].id + '"] .product__description';
+        var message = $('<span class="pt-discount-message" style="color:red;">' + discounted_items[i].message + '</span>');
+        
+        $(product_select).append(message);
+      }
+    });
+  })(Checkout.$);
+</script>

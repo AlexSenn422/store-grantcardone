@@ -1,0 +1,600 @@
+{% comment %}
+** Product - default view **
+- Product template
+{% endcomment %}
+
+<!-- Klaviyo Pixel -->
+<script text="text/javascript">
+  var _learnq = _learnq || [];
+
+  var item = {
+    Name: {{ product.title|json }},
+    ProductID: {{ product.id|json }},
+    Categories: {{ product.collections|map:'title'|json }},
+    ImageURL: "https:{{ product.featured_image.src|img_url:'grande' }}",
+    URL: "{{ shop.secure_url }}{{ product.url }}",
+    Brand: {{ product.vendor|json }},
+    Price: {{ product.price|money|json }},
+    CompareAtPrice: {{ product.compare_at_price_max|money|json }}
+  };
+
+  _learnq.push(['track', 'Viewed Product', item]);
+  _learnq.push(['trackViewedItem', {
+    Title: item.Name,
+    ItemId: item.ProductID,
+    Categories: item.Categories,
+    ImageUrl: item.ImageURL,
+    Url: item.URL,
+    Metadata: {
+      Brand: item.Brand,
+      Price: item.Price,
+      CompareAtPrice: item.CompareAtPrice
+    }
+  }]);
+</script>
+<!-- End Klaviyo Pixel -->
+<a name="pagecontent" id="pagecontent"></a>
+
+<div class="container main content">
+  <div class="sixteen columns">
+    {% if collection.previous_product or collection.next_product or section.settings.product_breadcrumb %}
+      <div class="clearfix breadcrumb-collection">
+        {% if collection.previous_product or collection.next_product %}
+          <div class="nav_arrows breadcrumb_text">
+            {% if collection.previous_product %}
+              <a href="{{ collection.previous_product }}" title="{{ 'products.general.previous_product_html' | t }}" class="breadcrumb_link"><span class="icon-left-arrow"> {{ 'products.general.previous_product_html' | t }}</span></a>
+            {% endif %}
+            {% if collection.previous_product and collection.next_product %}<span class="breadcrumb-divider"> | </span>{% endif %}
+
+            {% if collection.next_product %}
+              <a href="{{collection.next_product}}" title="{{ 'products.general.next_product_html' | t }}" class="breadcrumb_link">{{ 'products.general.next_product_html' | t }} <span class="icon-right-arrow"></span></a>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% if section.settings.product_breadcrumb %}
+          <div class="breadcrumb_text" itemscope itemtype="http://schema.org/BreadcrumbList">
+            <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a href="{{ shop.url }}" title="{{ shop.name | escape }}" itemprop="item" class="breadcrumb_link"><span itemprop="name">{{ 'general.breadcrumbs.home' | t }}</span></a></span>
+            <span class="breadcrumb-divider">/</span>
+            <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+              {% if collection %}
+                <a href="{{ collection.url }}" title="{{ collection.title | escape }}" itemprop="item" class="breadcrumb_link"><span itemprop="name">{{ collection.title }}</span></a>
+              {% else %}
+                <a href="/collections/all" title="{{ collections.all.title }}" class="breadcrumb_link"><span>{{ collections.all.title }}</span></a>
+              {% endif %}
+            </span>
+            <span class="breadcrumb-divider">/</span>
+            {{ product.title }}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+
+  {% comment %}Check to see if sidebar should be enabled{% endcomment %}
+  {% if section.blocks.size > 0 %}
+    {% assign sidebar = true %}
+  {% else %}
+    {% assign sidebar = false %}
+  {% endif %}
+
+  <div class="product clearfix">
+    {% if sidebar %}
+      {% include 'sidebar' %}
+      <div class="twelve columns">
+    {% else %}
+      <div class="sixteen columns">
+    {% endif %}
+        
+    <div class="sixteen columns" style="text-align: -webkit-center;">
+      <!-- Banner 1 -->
+      <a href="https://grantcardone.com/15166166/checkouts/87d02d3a64a0e13fdbc15bb097d9f60c?_ga=2.109318149.1211510366.1508773801-1760014801.1498159364%26_gac%3D1.175252118.1508351680.EAIaIQobChMI_4yC6-f61gIVhF6GCh3BzgoGEAAYASAAEgI1TfD_BwE" target="_blank"><img src="https://cdn.shopify.com/s/files/1/1516/6166/files/playbook-new-header.jpg?16605585794262386921" style="max-width: 100%;"></a> <br>
+    
+      <!-- Product Image -->
+      <img src="https://cdn.shopify.com/s/files/1/1516/6166/files/playbook-image.png?17168939638718122328" style="max-width: 100%;"> <br><br>   
+    
+      <!-- Price -->
+      <img src="https://cdn.shopify.com/s/files/1/1516/6166/files/playbook-price-495-1.png?17168939638718122328" style="max-width: 100%;"> <br><br>
+ 
+      <!-- Button -->
+      <a href="https://grantcardone.com/15166166/checkouts/87d02d3a64a0e13fdbc15bb097d9f60c?_ga=2.109318149.1211510366.1508773801-1760014801.1498159364%26_gac%3D1.175252118.1508351680.EAIaIQobChMI_4yC6-f61gIVhF6GCh3BzgoGEAAYASAAEgI1TfD_BwE" target="_blank"><img src="https://cdn.shopify.com/s/files/1/1516/6166/files/playbook-weekeddeal-cta-button.png?17168939638718122328" style="max-width: 100%;"></a>
+      
+      <p>One Time Payment</p> <br>
+          
+      <!-- Special Offer Include... -->
+      <img src="https://cdn.shopify.com/s/files/1/1516/6166/files/playbook-includes-wide_f1be066e-be9d-4856-9d8f-ebd52aa3e0a5.png?17523077968255944631" style="max-width: 100%;"> <br><br>
+      
+      <!-- Playbook 420+ Pages -->
+      <img src="https://cdn.shopify.com/s/files/1/1516/6166/files/ebook2-7.jpg?2209258517981037021" style="max-width: 100%;"> <br><br>
+      
+      <!-- Box 1 -->
+      <img src="https://cdn.shopify.com/s/files/1/1516/6166/files/program-4.jpg?5950273550314230402" style="max-width: 100%;"> <br>
+      
+      <!-- Box 2 -->
+      <img src="https://cdn.shopify.com/s/files/1/1516/6166/files/program-2.jpg?5950273550314230402" style="max-width: 100%;"> <br>
+      
+      <!-- Box 3 -->
+      <img src="https://cdn.shopify.com/s/files/1/1516/6166/files/program-1.jpg?5950273550314230402" style="max-width: 100%;"> <br>
+      
+      <!-- Box 4 -->
+      <img src="https://cdn.shopify.com/s/files/1/1516/6166/files/program-3.jpg?5950273550314230402" style="max-width: 100%;"> <br>
+      
+      <!-- Box 5 -->
+      <img src="https://cdn.shopify.com/s/files/1/1516/6166/files/program-5.jpg?5950273550314230402" style="max-width: 100%;"> <br>
+      
+      <!-- Box 6 -->
+      <img src="https://cdn.shopify.com/s/files/1/1516/6166/files/program-6.jpg?5950273550314230402" style="max-width: 100%;"> <br>
+      
+      <!-- Box 7 -->
+      <img src="https://cdn.shopify.com/s/files/1/1516/6166/files/program-7.jpg?5950273550314230402" style="max-width: 100%;"> <br>
+      
+      <!-- Box 8 -->
+      <img src="https://cdn.shopify.com/s/files/1/1516/6166/files/program-8.jpg?5950273550314230402" style="max-width: 100%;"> <br>
+      
+      <!-- Box 9 -->
+      <img src="https://cdn.shopify.com/s/files/1/1516/6166/files/program-9.jpg?5950273550314230402" style="max-width: 100%;"> <br><br>
+      
+      <!-- What others are saying -->
+      <img src="https://cdn.shopify.com/s/files/1/1516/6166/files/whatothersaresaying.png?17505716002819190836" style="max-width: 100%;"> <br>
+    </div>  
+        
+    <div class="row">
+       <div class="eight columns alpha">
+       	 <img src="https://cdn.shopify.com/s/files/1/1516/6166/files/testimonial-6.jpg?5616295364788546621" style="max-width: 100%;">
+       </div>
+       
+      <div class="eight columns omega">
+         <img src="https://cdn.shopify.com/s/files/1/1516/6166/files/testimonial-2.jpg?5616295364788546621" style="max-width: 100%;">
+      </div>
+      
+      <div class="eight columns alpha">
+       	 <img src="https://cdn.shopify.com/s/files/1/1516/6166/files/testimonial-1.jpg?12264074478316797069" style="max-width: 100%;">
+       </div>
+       
+      <div class="eight columns omega">
+         <img src="https://cdn.shopify.com/s/files/1/1516/6166/files/testimonial-3.jpg?12264074478316797069" style="max-width: 100%;">
+      </div>
+      
+      <div class="eight columns alpha">
+       	 <img src="https://cdn.shopify.com/s/files/1/1516/6166/files/testimonial-5.jpg?18273770018372002607" style="max-width: 100%;">
+       </div>
+       
+      <div class="eight columns omega">
+         <img src="https://cdn.shopify.com/s/files/1/1516/6166/files/steve-gardiner.jpg?18273770018372002607" style="max-width: 100%;"> <br>
+      </div>
+    </div>
+    
+    <div class="sixteen columns" style="text-align: -webkit-center;">
+      <!-- Price -->
+      <img src="https://cdn.shopify.com/s/files/1/1516/6166/files/playbook-price-495-1.png?17168939638718122328" style="max-width: 100%;"> <br><br>
+
+      <!-- Button -->
+      <a href="https://grantcardone.com/15166166/checkouts/87d02d3a64a0e13fdbc15bb097d9f60c?_ga=2.109318149.1211510366.1508773801-1760014801.1498159364%26_gac%3D1.175252118.1508351680.EAIaIQobChMI_4yC6-f61gIVhF6GCh3BzgoGEAAYASAAEgI1TfD_BwE" target="_blank"><img src="https://cdn.shopify.com/s/files/1/1516/6166/files/playbook-weekeddeal-cta-button.png?17168939638718122328" style="max-width: 100%;"></a>
+
+      <p>One Time Payment</p> <br>
+      
+      <p>
+        Look, you know I can’t guarantee anything to anyone on planet earth because there are just too many average people that will not do whatever it takes with my material. My stuff has worked for thousands of people before you, but it may not work for you, that’s why you have to take full responsibility for your own success.  I’m here for you and want to help you, but any monetary increases you make is up to you.  Most people who buy my stuff are very happy, and the people that actually do the things I teach are my biggest supporters.  The truth is, there is nobody that can offer everyone guaranteed success in life because there are too many victims unwilling to take full responsibility for their own success.  Be great, Grant
+      </p>
+      
+      <p>
+       *We do not guarantee a specific income or results with this program. We provide coaching methods that have proven successful for many other clients. Your results may vary. 
+      </p>  
+    </div> 
+        
+    <div class="meta" style="text-align: -webkit-center;">
+       {% if section.settings.display_social_buttons %}
+          {% include "social-buttons" with "product" %}
+       {% endif %}
+    </div>    
+       
+    </div>      
+        
+        
+    <div  class="product-{{ product.id }}"
+          data-free-text="{{ settings.free_price_text }}"
+          >
+      <div class="section product_section clearfix js-product_section {% if section.settings.product_images_position == 'right' %}align_right--images{% endif %}" itemscope itemtype="http://schema.org/Product" data-rv-handle="{{ product.handle }}">
+
+        
+          
+      
+      <div class="yotpo yotpo-slider"
+           data-product-id="{{ product.id }}">
+      </div>
+      
+      <div class="yotpo yotpo-main-widget"
+           data-product-id="{{ product.id }}"
+           data-name="{{ product.title | escape }}"
+           data-url="{{ shop.url }}{{ product.url }}"
+           data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}">
+      </div>
+
+    {% if sidebar %}
+
+            {% if section.settings.display_related_products %}
+              {% include 'related-products' %}
+            {% endif %}
+            {% if section.settings.display_recently_viewed %}
+              {% include 'recently-viewed' %}
+            {% endif %}
+
+          </div>
+        </div>
+      </div>
+
+    {% else %}
+
+          </div>
+        </div>
+      </div>
+
+      {% if section.settings.display_related_products %}
+        {% include 'related-products' %}
+      {% endif %}
+      {% if section.settings.display_recently_viewed %}
+        {% include 'recently-viewed' %}
+      {% endif %}
+
+    {% endif %}
+
+{% schema %}
+
+{
+  "name": "Product",
+  "class": "product-template",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Product gallery"
+    },
+    {
+      "type": "checkbox",
+      "id": "gallery_arrows",
+      "label": "Show arrows on product gallery",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "activate_zoom",
+      "label": "Magnify product images on hover"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_product_lightbox",
+      "label": "Enable product gallery popup",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "activate_autoplay",
+      "label": "Enable product gallery slideshow"
+    },
+    {
+      "type": "select",
+      "id": "slideshow_animation",
+      "label": "Gallery transition",
+      "options": [
+        {
+          "value": "slide",
+          "label": "Slide"
+        },
+        {
+          "value": "fade",
+          "label": "Fade"
+        }
+      ],
+      "default": "slide"
+    },
+    {
+      "type": "radio",
+      "id": "product_images_position",
+      "label": "Gallery position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "product_thumbs",
+      "label": "Show product gallery thumbnails",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "thumbnail_position",
+      "label": "Thumbnail position",
+      "default": "bottom-thumbnails",
+      "options": [
+        {
+          "value": "left-thumbnails",
+          "label": "Left"
+        },
+        {
+          "value": "bottom-thumbnails",
+          "label": "Bottom"
+        },
+        {
+          "value": "right-thumbnails",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Product info"
+    },
+    {
+      "type": "checkbox",
+      "id": "product_breadcrumb",
+      "label": "Show breadcrumb links"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_vendor",
+      "label": "Show vendor"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_sku",
+      "label": "Show SKU"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_savings",
+      "label": "Show price savings",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "display_collections",
+      "label": "Show collections"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_type",
+      "label": "Show type"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_tags",
+      "label": "Show tags"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_social_buttons",
+      "label": "Show social media share icons",
+      "default": true
+    },
+    {
+      "type": "radio",
+      "id": "product_description_position",
+      "label": "Description position",
+      "options": [
+        {
+          "value": "top",
+          "label": "Above product form"
+        },
+        {
+          "value": "bottom",
+          "label": "Below product form"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Related products"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_related_products",
+      "label": "Show related products ([?](https:\/\/help.outofthesandbox.com\/hc\/en-us\/articles\/115006909487-Related-Products))",
+      "default": true
+    },
+    {
+      "type": "radio",
+      "id": "related_products_style",
+      "label": "Layout",
+      "default": "grid",
+      "options": [
+        {
+          "value": "slider",
+          "label": "Slider"
+        },
+        {
+          "value": "grid",
+          "label": "Grid"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "related_products_limit",
+      "label": "Limit products",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "products_per",
+      "label": "Products per row",
+      "min": 3,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Recently viewed products"
+    },
+    {
+      "type": "paragraph",
+      "content": "To test the recently viewed products, view your online store outside of the Editor and visit multiple product pages ([?](https:\/\/help.outofthesandbox.com\/hc\/en-us\/articles\/115008765228))"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_recently_viewed",
+      "label": "Show recently viewed products",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "rv_title",
+      "label": "Title",
+      "default": "Recently Viewed Items"
+    },
+    {
+      "type": "radio",
+      "id": "rv_products_style",
+      "label": "Layout",
+      "default": "grid",
+      "options": [
+        {
+          "value": "slider",
+          "label": "Slider"
+        },
+        {
+          "value": "grid",
+          "label": "Grid"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "rv_max_display",
+      "label": "Products limit",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "rv_per",
+      "label": "Products per row",
+      "min": 3,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Sidebar"
+    },
+    {
+      "type": "paragraph",
+      "content": "Create a sidebar by adding content blocks."
+    },
+    {
+      "type": "checkbox",
+      "id": "toggle",
+      "label": "Toggle sidebar content",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "filter_by_collection",
+      "name": "Collection list",
+      "limit": 1
+    },
+    {
+      "type": "menu",
+      "name": "Menu",
+      "settings": [
+        {
+          "type": "link_list",
+          "id": "custom_menu_linklist",
+          "label": "Menu"
+        }
+      ]
+    },
+    {
+      "type": "page",
+      "name": "Page",
+      "settings": [
+        {
+          "type": "page",
+          "id": "content_page",
+          "label": "Page"
+        }
+      ]
+    },
+    {
+      "type": "recently_viewed",
+      "name": "Recently viewed products",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "To test the recently viewed products, view your online store outside of the Editor and visit multiple product pages ([?](https:\/\/help.outofthesandbox.com\/hc\/en-us\/articles\/115008765228))"
+        },
+        {
+          "type": "text",
+          "id": "sidebar_rv_title",
+          "label": "Title",
+          "default": "Recently Viewed"
+        },
+        {
+          "type": "range",
+          "id": "sidebar_rv_per",
+          "label": "Products limit",
+          "min": 1,
+          "max": 4,
+          "step": 1,
+          "default": 3
+        }
+      ]
+    },
+    {
+      "type": "filter_by_tag",
+      "name": "Tag list",
+      "limit": 1
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Text area can be used for special announcements or general information.</p>"
+        }
+      ]
+    },
+    {
+      "type": "filter_by_type",
+      "name": "Type list",
+      "limit": 1
+    },
+    {
+      "type": "filter_by_vendor",
+      "name": "Vendor list",
+      "limit": 1
+    }
+  ],
+  "default": {
+    "settings": {
+
+    }
+  }
+}
+
+{% endschema %}
+
